@@ -1,11 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:messages_chat_app/common/consts.dart';
+import 'package:messages_chat_app/common/custom_button.dart';
 import 'package:messages_chat_app/common/custom_text_field.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+  SignUpScreen({super.key});
 
   static String id = 'SignUp';
+  String? email;
+  String? password;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,10 @@ class SignUpScreen extends StatelessWidget {
             const SizedBox(
               height: 40,
             ),
-            Image.asset('assets/images/scholar.png', height: 130,),
+            Image.asset(
+              'assets/images/scholar.png',
+              height: 130,
+            ),
             const Text(
               'Messages',
               style: TextStyle(
@@ -41,35 +48,54 @@ class SignUpScreen extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const CustomTextField(hintText: 'email'),
+            CustomTextField(
+              hintText: 'email',
+              onChanged: (data) {
+                email = data;
+              },
+            ),
             const SizedBox(
               height: 12,
             ),
-            const CustomTextField(hintText: 'password'),
+            CustomTextField(
+              hintText: 'password',
+              onChanged: (data) {
+                password = data;
+              },
+            ),
             const SizedBox(
               height: 30,
             ),
-            Container(
-              height: 55,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Center(
-                child: Text(
-                  'SignUp',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'pacifico'),
-                ),
-              ),
+            CustomButton(
+              onTap: () async {
+                try {
+                  await registerUser();
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'weak-password') {
+                    showSnackBar(
+                      context,
+                      message: "The password provided is too weak",
+                    );
+                  } else if (e.code == 'email-already-in-use') {
+                    showSnackBar(
+                      context,
+                      message: "The account already exists for that email",
+                    );
+                  }
+                }
+                showSnackBar(
+                  context,
+                  message: "succesfuly Signed Up",
+                );
+
+                // print(userCredential.user!.displayName);
+              },
+              text: 'SignUp',
             ),
             const SizedBox(
               height: 16,
             ),
-             Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text("Already have an account ?",
@@ -90,6 +116,22 @@ class SignUpScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void showSnackBar(BuildContext context, {required String message}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
+
+  Future<void> registerUser() async {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: email!,
+      password: password!,
     );
   }
 }

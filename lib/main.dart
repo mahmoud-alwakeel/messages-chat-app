@@ -21,7 +21,7 @@ class Messages extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         SiginInScreen.id : (context) => const SiginInScreen(),
-        SignUpScreen.id : (context) => const SignUpScreen(),
+        SignUpScreen.id : (context) => SignUpScreen(),
       },
       initialRoute: SiginInScreen.id,
     );

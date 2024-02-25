@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:messages_chat_app/common/consts.dart';
+import 'package:messages_chat_app/common/custom_button.dart';
 import 'package:messages_chat_app/common/custom_text_field.dart';
 import 'package:messages_chat_app/screens/signup_screen.dart';
 
@@ -53,31 +55,19 @@ class SiginInScreen extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            const CustomTextField(hintText: 'email'),
+            CustomTextField(
+ 
+              hintText: 'email'),
             const SizedBox(
               height: 12,
             ),
-            const CustomTextField(hintText: 'password'),
+            CustomTextField(hintText: 'password'),
             const SizedBox(
               height: 30,
             ),
-            Container(
-              height: 55,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Center(
-                child: Text(
-                  'SignIn',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'pacifico'),
-                ),
-              ),
-            ),
+            CustomButton(
+
+              text: 'SignIn',),
             const SizedBox(
               height: 16,
             ),
