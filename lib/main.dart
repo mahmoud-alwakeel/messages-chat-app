@@ -23,7 +23,7 @@ class Messages extends StatelessWidget {
       routes: {
         SiginInScreen.id : (context) => SiginInScreen(),
         SignUpScreen.id : (context) => SignUpScreen(),
-        ChatScreen.id : (context) => const ChatScreen(),
+        ChatScreen.id : (context) => ChatScreen(),
       },
       initialRoute: ChatScreen.id,
     );
